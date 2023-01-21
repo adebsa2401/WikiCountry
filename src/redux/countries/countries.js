@@ -1,4 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {
+  REACT_APP_API_KEY,
+  REACT_APP_COUNTRIES_API_URL,
+  REACT_APP_FLAGS_URL,
+  REACT_APP_MAPS_URL,
+} from '@env';
 
 const LOAD = 'wiki-country/countries/LOAD';
 
@@ -6,12 +12,12 @@ let minPopulation = 0;
 
 export const loadCountries = createAsyncThunk(LOAD, async () => {
   const response = await fetch(
-    `${process.env.REACT_APP_COUNTRIES_API_URL}?min_population=${minPopulation}&limit=30`,
+    `${REACT_APP_COUNTRIES_API_URL}?min_population=${minPopulation}&limit=30`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'X-Api-Key': process.env.REACT_APP_API_KEY,
+        'X-Api-Key': REACT_APP_API_KEY,
       },
     },
   );
@@ -20,10 +26,8 @@ export const loadCountries = createAsyncThunk(LOAD, async () => {
     name: country.name,
     population: parseInt(country.population, 10) * 1000,
     iso2: country.iso2,
-    flag: `${process.env.REACT_APP_FLAGS_URL}/${country.iso2.toLowerCase()}`,
-    map: `${
-      process.env.REACT_APP_MAPS_URL
-    }/${country.iso2.toLowerCase()}/128.png`,
+    flag: `${REACT_APP_FLAGS_URL}/${country.iso2.toLowerCase()}`,
+    map: `${REACT_APP_MAPS_URL}/${country.iso2.toLowerCase()}/128.png`,
   }));
 
   if (data.length > 0) {

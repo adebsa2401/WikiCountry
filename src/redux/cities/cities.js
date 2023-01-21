@@ -1,4 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {REACT_APP_API_KEY, REACT_APP_CITIES_API_URL} from '@env';
 
 const LOAD = 'wiki-country/cities/LOAD';
 
@@ -8,12 +9,12 @@ export const loadCities = createAsyncThunk(LOAD, async iso2 => {
   const minPopulation = minPopulationObject[iso2] || 0;
 
   const response = await fetch(
-    `${process.env.REACT_APP_CITIES_API_URL}?country=${iso2}&min_population=${minPopulation}&limit=30`,
+    `${REACT_APP_CITIES_API_URL}?country=${iso2}&min_population=${minPopulation}&limit=30`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'X-Api-Key': process.env.REACT_APP_API_KEY,
+        'X-Api-Key': REACT_APP_API_KEY,
       },
     },
   );

@@ -26,6 +26,7 @@
         "react-native"
     ],
     "rules": {
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "no-shadow": "off"
     }
 }

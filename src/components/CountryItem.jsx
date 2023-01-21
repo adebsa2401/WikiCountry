@@ -1,47 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useNavigate} from 'react-router-dom';
-import '../styles/CountryItem.css';
+import {Image, Text, TouchableHighlight, View} from 'react-native';
 
-export default function CountryItem({name, statistic, flag, map, iso2, index}) {
-  const navigate = useNavigate();
-
+export default function CountryItem({
+  navigation,
+  name,
+  statistic,
+  flag,
+  map,
+  iso2,
+  index,
+}) {
   const darkStyle = [1, 2].includes((index % 4) % 3);
 
   return (
     <>
-      <style>
+      {/* <style>
         {`#country-item-${iso2}::before {
           background-image: url(${map});
         }`}
-      </style>
-      <div
+      </style> */}
+      <TouchableHighlight
         id={`country-item-${iso2}`}
         className={`country-item ${darkStyle ? 'country-item-dark' : ''}`}
         role="presentation"
         onClick={() =>
-          navigate(`/countries/${iso2}/cities`, {
-            state: {
-              name,
-              statistic,
-              map,
-              flag,
-            },
+          navigation.navigate('Details', {
+            name,
+            iso2,
+            statistic,
+            map,
+            flag,
           })
         }>
-        <div className="country-item-header">
-          <img
+        <View className="country-item-header">
+          <Image
             className="country-flag"
             crossOrigin="anonymous"
             src={flag}
             alt={`${name} flag`}
           />
-          <h3 className="country-name">{name}</h3>
-        </div>
-        <span className="country-statistic">
+          <Text className="country-name">{name}</Text>
+        </View>
+        <Text className="country-statistic">
           {new Intl.NumberFormat().format(statistic)}
-        </span>
-      </div>
+        </Text>
+      </TouchableHighlight>
     </>
   );
 }
