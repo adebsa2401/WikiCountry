@@ -6,7 +6,7 @@ import CountryItem from '../components/CountryItem';
 import {loadCountries} from '../redux/countries/countries';
 import {FlatList, Text, View} from 'react-native';
 
-export default function HomePage() {
+export default function HomePage({navigation}) {
   const [countries, {limit, ge}] = useSelector(state => [
     state.countries,
     state.itemsFilter,
@@ -32,7 +32,7 @@ export default function HomePage() {
 
   return (
     <View className="home-content">
-      <Header title={`Population/Countries (${filteredCountries.length})`} />
+      {/* <Header title={`Population/Countries (${filteredCountries.length})`} /> */}
       <View>
         <Filter />
         <View className="headline">
@@ -41,19 +41,23 @@ export default function HomePage() {
             {new Intl.NumberFormat().format(worldPopulation)}
           </Text>
         </View>
-        <FlatList className="countries-grid">
-          {filteredCountries.map((country, index) => (
+        <FlatList
+          className="countries-grid"
+          data={filteredCountries}
+          keyExtractor={item => item.name}
+          renderItem={({item, index}) => (
             <CountryItem
-              key={country.name}
+              navigation={navigation}
+              key={item.name}
               index={index}
-              name={country.name}
-              statistic={country.population}
-              flag={country.flag}
-              map={country.map}
-              iso2={country.iso2}
+              name={item.name}
+              statistic={item.population}
+              flag={item.flag}
+              map={item.map}
+              iso2={item.iso2}
             />
-          ))}
-        </FlatList>
+          )}
+        />
       </View>
     </View>
   );

@@ -24,7 +24,7 @@ export default function CountryItem({
         id={`country-item-${iso2}`}
         className={`country-item ${darkStyle ? 'country-item-dark' : ''}`}
         role="presentation"
-        onClick={() =>
+        onPress={() =>
           navigation.navigate('Details', {
             name,
             iso2,
@@ -33,18 +33,20 @@ export default function CountryItem({
             flag,
           })
         }>
-        <View className="country-item-header">
-          <Image
-            className="country-flag"
-            crossOrigin="anonymous"
-            src={flag}
-            alt={`${name} flag`}
-          />
-          <Text className="country-name">{name}</Text>
+        <View>
+          <View className="country-item-header">
+            <Image
+              className="country-flag"
+              crossOrigin="anonymous"
+              src={flag}
+              alt={`${name} flag`}
+            />
+            <Text className="country-name">{name}</Text>
+          </View>
+          <Text className="country-statistic">
+            {new Intl.NumberFormat().format(statistic)}
+          </Text>
         </View>
-        <Text className="country-statistic">
-          {new Intl.NumberFormat().format(statistic)}
-        </Text>
       </TouchableHighlight>
     </>
   );

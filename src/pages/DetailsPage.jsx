@@ -60,18 +60,20 @@ export default function DetailsPage({route}) {
             {new Intl.NumberFormat().format(country.statistic)}
           </Text>
         </View>
-        <FlatList className="cities-list">
-          {filteredCities &&
-            filteredCities.map((city, index) => (
-              <CityItem
-                key={city.name}
-                index={index}
-                name={city.name}
-                statistic={city.population}
-                isCapital={city.isCapital}
-              />
-            ))}
-        </FlatList>
+        <FlatList
+          className="cities-list"
+          data={filteredCities || []}
+          keyExtractor={item => item.name}
+          renderItem={({item, index}) => (
+            <CityItem
+              key={item.name}
+              index={index}
+              name={item.name}
+              statistic={item.population}
+              isCapital={item.isCapital}
+            />
+          )}
+        />
       </View>
     </View>
   );
