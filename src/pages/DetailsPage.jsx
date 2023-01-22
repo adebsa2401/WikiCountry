@@ -1,16 +1,9 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import Filter from '../components/Filter';
 import CityItem from '../components/CityItem';
 import {loadCities} from '../redux/cities/cities';
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
+import CitiesListHeader from '../components/CitiesListHeader';
 
 export default function DetailsPage({navigation, route}) {
   const country = route.params;
@@ -42,25 +35,11 @@ export default function DetailsPage({navigation, route}) {
       return city.population <= limit;
     });
 
+  const citiesListHeader = () => <CitiesListHeader country={country} />;
+
   return (
     <View style={styles.detailsContainer}>
       <View>
-        <Filter />
-        <View style={styles.countryHeadline}>
-          <ImageBackground
-            source={{uri: country.map}}
-            style={styles.headlineBackgroundContainer}
-            imageStyle={styles.headlineBackground}
-            resizeMode="contain">
-            <View style={styles.countryHeadlineHeader}>
-              <Image style={styles.countryFlag} source={{uri: country.flag}} />
-              <Text style={styles.countryName}>{country.name}</Text>
-            </View>
-            <Text style={styles.countryStatistic}>
-              {new Intl.NumberFormat().format(country.statistic)}
-            </Text>
-          </ImageBackground>
-        </View>
         <FlatList
           data={filteredCities || []}
           keyExtractor={item => item.name}
@@ -73,6 +52,7 @@ export default function DetailsPage({navigation, route}) {
               isCapital={item.isCapital}
             />
           )}
+          ListHeaderComponent={citiesListHeader}
         />
       </View>
     </View>
@@ -83,38 +63,5 @@ const styles = StyleSheet.create({
   detailsContainer: {
     backgroundColor: '#fc5193',
     color: '#fff',
-  },
-
-  headlineBackground: {
-    opacity: 0.3,
-  },
-
-  headlineBackgroundContainer: {
-    flex: 1,
-  },
-
-  countryHeadline: {
-    height: 150,
-    padding: 10,
-  },
-
-  countryHeadlineHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-
-  countryFlag: {
-    width: 50,
-    height: 30,
-  },
-
-  countryStatistic: {
-    marginTop: 'auto',
-    marginLeft: 'auto',
-  },
-
-  countryName: {
-    textTransform: 'uppercase',
   },
 });
