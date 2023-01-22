@@ -117,6 +117,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('wiki_country.keystore')
+            storePassword 'wiki_country'/* System.console().readLine("\nKeystore password:") */
+            keyAlias 'wiki_country'/* System.console().readLine("\nAlias: ") */
+            keyPassword 'wiki_country'/* System.console().readLine("\nAlias password: ") */
+        }
     }
     buildTypes {
         debug {
