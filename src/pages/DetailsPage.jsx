@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Filter from '../components/Filter';
-import Header from '../components/Header';
 import CityItem from '../components/CityItem';
 import {loadCities} from '../redux/cities/cities';
 import {FlatList, Image, Text, View} from 'react-native';
 
-export default function DetailsPage({route}) {
+export default function DetailsPage({navigation, route}) {
   const country = route.params;
 
   const [cities, {limit, ge}] = useSelector(state => [
@@ -20,6 +19,13 @@ export default function DetailsPage({route}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities && cities.length]);
 
+  useEffect(() => {
+    navigation.setOptions({
+      title: `Population/Cities (${(cities && cities.length) || 0})`,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cities && cities.length, navigation]);
+
   const filteredCities =
     cities &&
     cities.filter(city => {
@@ -31,12 +37,6 @@ export default function DetailsPage({route}) {
 
   return (
     <View className="details-content">
-      <Header
-        title={`Population/Cities (${
-          (filteredCities && filteredCities.length) || 0
-        })`}
-        showBackButton
-      />
       <View>
         <Filter />
         {/* <style>

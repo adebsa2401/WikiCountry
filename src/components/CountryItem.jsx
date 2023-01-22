@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, Text, TouchableHighlight, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export default function CountryItem({
   navigation,
@@ -11,44 +18,35 @@ export default function CountryItem({
   iso2,
   index,
 }) {
-  const darkStyle = [1, 2].includes((index % 4) % 3);
-
   return (
-    <>
-      {/* <style>
-        {`#country-item-${iso2}::before {
-          background-image: url(${map});
-        }`}
-      </style> */}
-      <TouchableHighlight
-        id={`country-item-${iso2}`}
-        className={`country-item ${darkStyle ? 'country-item-dark' : ''}`}
-        role="presentation"
-        onPress={() =>
-          navigation.navigate('Details', {
-            name,
-            iso2,
-            statistic,
-            map,
-            flag,
-          })
-        }>
-        <View>
-          <View className="country-item-header">
-            <Image
-              className="country-flag"
-              crossOrigin="anonymous"
-              src={flag}
-              alt={`${name} flag`}
-            />
-            <Text className="country-name">{name}</Text>
-          </View>
-          <Text className="country-statistic">
-            {new Intl.NumberFormat().format(statistic)}
-          </Text>
+    <TouchableOpacity
+      style={styles.countryItem(index)}
+      onPress={() =>
+        navigation.navigate('Details', {
+          name,
+          iso2,
+          statistic,
+          map,
+          flag,
+        })
+      }>
+      <ImageBackground
+        source={{uri: map}}
+        style={styles.backgroundImageContainer}
+        imageStyle={styles.backgroundImage}
+        resizeMode="cover">
+        <View style={styles.countryItemHeader}>
+          <Image
+            style={styles.countryFlag}
+            source={{uri: flag, crossOrigin: 'anonymous'}}
+          />
+          <Text style={styles.countryName}>{name}</Text>
         </View>
-      </TouchableHighlight>
-    </>
+        <Text style={styles.countryStatistic}>
+          {new Intl.NumberFormat().format(statistic)}
+        </Text>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 }
 
@@ -64,3 +62,50 @@ CountryItem.propTypes = {
 CountryItem.defaultProps = {
   index: 0,
 };
+
+const styles = StyleSheet.create({
+  countryItem: index => {
+    const style = {
+      aspectRatio: '1/1',
+      flex: 1,
+      maxWidth: '50%',
+      padding: 10,
+      overflow: 'hidden',
+    };
+
+    if ([1, 2].includes((index % 4) % 3)) {
+      style.backgroundColor = '#ce4478';
+    }
+
+    return style;
+  },
+
+  backgroundImage: {
+    opacity: 0.3,
+    margin: '25%',
+  },
+
+  backgroundImageContainer: {
+    flex: 1,
+  },
+
+  countryItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+
+  countryFlag: {
+    width: 50,
+    height: 30,
+  },
+
+  countryStatistic: {
+    marginTop: 'auto',
+    marginLeft: 'auto',
+  },
+
+  countryName: {
+    textTransform: 'uppercase',
+  },
+});
