@@ -3,7 +3,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import Filter from '../components/Filter';
 import CityItem from '../components/CityItem';
 import {loadCities} from '../redux/cities/cities';
-import {FlatList, Image, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 export default function DetailsPage({navigation, route}) {
   const country = route.params;
@@ -36,32 +43,25 @@ export default function DetailsPage({navigation, route}) {
     });
 
   return (
-    <View className="details-content">
+    <View style={styles.detailsContainer}>
       <View>
         <Filter />
-        {/* <style>
-          {`#country-headline-${country.iso2}::before {
-            background-image: url(${country.map});
-          }`}
-        </style> */}
-        <View
-          id={`country-headline-${country.iso2}`}
-          className="country-headline">
-          <View className="country-headline-header">
-            <Image
-              className="country-flag"
-              crossOrigin="anonymous"
-              src={country.flag}
-              alt={`${country.name} flag`}
-            />
-            <Text className="country-name">{country.name}</Text>
-          </View>
-          <Text className="country-statistic">
-            {new Intl.NumberFormat().format(country.statistic)}
-          </Text>
+        <View style={styles.countryHeadline}>
+          <ImageBackground
+            source={{uri: country.map}}
+            style={styles.headlineBackgroundContainer}
+            imageStyle={styles.headlineBackground}
+            resizeMode="contain">
+            <View style={styles.countryHeadlineHeader}>
+              <Image style={styles.countryFlag} source={{uri: country.flag}} />
+              <Text style={styles.countryName}>{country.name}</Text>
+            </View>
+            <Text style={styles.countryStatistic}>
+              {new Intl.NumberFormat().format(country.statistic)}
+            </Text>
+          </ImageBackground>
         </View>
         <FlatList
-          className="cities-list"
           data={filteredCities || []}
           keyExtractor={item => item.name}
           renderItem={({item, index}) => (
@@ -78,3 +78,43 @@ export default function DetailsPage({navigation, route}) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  detailsContainer: {
+    backgroundColor: '#fc5193',
+    color: '#fff',
+  },
+
+  headlineBackground: {
+    opacity: 0.3,
+  },
+
+  headlineBackgroundContainer: {
+    flex: 1,
+  },
+
+  countryHeadline: {
+    height: 150,
+    padding: 10,
+  },
+
+  countryHeadlineHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+
+  countryFlag: {
+    width: 50,
+    height: 30,
+  },
+
+  countryStatistic: {
+    marginTop: 'auto',
+    marginLeft: 'auto',
+  },
+
+  countryName: {
+    textTransform: 'uppercase',
+  },
+});

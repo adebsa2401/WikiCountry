@@ -36,10 +36,7 @@ export default function CountryItem({
         imageStyle={styles.backgroundImage}
         resizeMode="cover">
         <View style={styles.countryItemHeader}>
-          <Image
-            style={styles.countryFlag}
-            source={{uri: flag, crossOrigin: 'anonymous'}}
-          />
+          <Image style={styles.countryFlag} source={{uri: flag}} />
           <Text style={styles.countryName}>{name}</Text>
         </View>
         <Text style={styles.countryStatistic}>

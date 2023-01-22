@@ -46,7 +46,7 @@ export default function HomePage({navigation}) {
             }}
             style={styles.headlineBackgroundContainer}
             imageStyle={styles.headlineBackground}
-            resizeMode="cover">
+            resizeMode="contain">
             <Text>World wide countries</Text>
             <Text style={styles.worldStatistic}>
               {new Intl.NumberFormat().format(worldPopulation)}
@@ -77,8 +77,8 @@ export default function HomePage({navigation}) {
 
 const styles = StyleSheet.create({
   homeContainer: {
-    // backgroundColor: '#fc5193',
-    // color: '#fff',
+    backgroundColor: '#fc5193',
+    color: '#fff',
   },
 
   headline: {

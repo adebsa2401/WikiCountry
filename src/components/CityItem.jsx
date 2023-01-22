@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {AiFillStar} from 'react-icons/ai';
-import {Text, View} from 'react-native';
+import {Icon} from '@rneui/themed';
+import {StyleSheet, Text, View} from 'react-native';
 
 export default function CityItem({name, statistic, isCapital, index}) {
   return (
-    <View className={`city-item ${index % 2 === 0 ? 'city-item-even' : ''}`}>
-      <Text className="city-name">{name}</Text>
-      {/* {isCapital && (
-        <AiFillStar style={{color: 'yellow', marginRight: 'auto'}} />
-      )} */}
+    <View style={styles.cityItem(index)}>
+      <Text>{name}</Text>
+      {isCapital && (
+        <Icon iconStyle={styles.icon} type="font-awesome" name="star" />
+      )}
       <Text>{new Intl.NumberFormat().format(statistic)}</Text>
     </View>
   );
@@ -26,3 +26,25 @@ CityItem.defaultProps = {
   isCapital: false,
   index: 0,
 };
+
+const styles = StyleSheet.create({
+  cityItem: index => {
+    const style = {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 10,
+      padding: 30,
+    };
+
+    if (index % 2 === 0) {
+      style.backgroundColor = '#ce4478';
+    }
+
+    return style;
+  },
+
+  icon: {
+    color: 'yellow',
+  },
+});
